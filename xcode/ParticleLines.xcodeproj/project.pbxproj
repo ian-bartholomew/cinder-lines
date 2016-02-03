@@ -21,6 +21,7 @@
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		A2628EFC3FF047A88E766616 /* CinderApp.icns in Resources */ = {isa = PBXBuildFile; fileRef = E9DD3681D1F5438FBB267C11 /* CinderApp.icns */; };
 		D0F2F1D81C61773D00C72E79 /* Particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0F2F1D71C61773D00C72E79 /* Particle.cpp */; };
+		D0F2F1DC1C61806200C72E79 /* ParticleController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D0F2F1DB1C61806200C72E79 /* ParticleController.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,8 @@
 		AB116795E8104381994A4BA2 /* Resources.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Resources.h; path = ../include/Resources.h; sourceTree = "<group>"; };
 		D0F2F1D61C61772A00C72E79 /* Particle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Particle.h; path = ../include/Particle.h; sourceTree = "<group>"; };
 		D0F2F1D71C61773D00C72E79 /* Particle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Particle.cpp; path = ../src/Particle.cpp; sourceTree = "<group>"; };
+		D0F2F1DA1C61804E00C72E79 /* ParticleController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ParticleController.h; path = ../include/ParticleController.h; sourceTree = "<group>"; };
+		D0F2F1DB1C61806200C72E79 /* ParticleController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ParticleController.cpp; path = ../src/ParticleController.cpp; sourceTree = "<group>"; };
 		E9DD3681D1F5438FBB267C11 /* CinderApp.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = CinderApp.icns; path = ../resources/CinderApp.icns; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -81,6 +84,7 @@
 			children = (
 				6EC1BCECDCCF424EA161CA3C /* ParticleLinesApp.cpp */,
 				D0F2F1D71C61773D00C72E79 /* Particle.cpp */,
+				D0F2F1DB1C61806200C72E79 /* ParticleController.cpp */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -139,6 +143,7 @@
 				AB116795E8104381994A4BA2 /* Resources.h */,
 				30F4ADCBF37349569626EB9F /* ParticleLines_Prefix.pch */,
 				D0F2F1D61C61772A00C72E79 /* Particle.h */,
+				D0F2F1DA1C61804E00C72E79 /* ParticleController.h */,
 			);
 			name = Headers;
 			sourceTree = "<group>";
@@ -224,6 +229,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0F2F1DC1C61806200C72E79 /* ParticleController.cpp in Sources */,
 				33E1DB421CEE4CF5BD070971 /* ParticleLinesApp.cpp in Sources */,
 				D0F2F1D81C61773D00C72E79 /* Particle.cpp in Sources */,
 			);
