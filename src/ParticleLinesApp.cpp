@@ -1,6 +1,7 @@
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
+#include "Particle.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -28,7 +29,10 @@ void ParticleLinesApp::update()
 
 void ParticleLinesApp::draw()
 {
-	gl::clear( Color( 0, 0, 0 ) ); 
+	gl::clear( Color( 0, 0, 0 ) );
+    gl::color( Color::white() );
 }
 
-CINDER_APP( ParticleLinesApp, RendererGl )
+CINDER_APP( ParticleLinesApp, RendererGl(), [&]( App::Settings *settings ) {
+    settings->setWindowSize( 1280, 720 );
+})
