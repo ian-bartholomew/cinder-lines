@@ -28,7 +28,7 @@ bool Particle::isOutsideBounds(vec2 bounds){
 }
 
 void Particle::draw(){
-    gl::drawSolidCircle(mLoc, mRadius);
+    gl::drawSolidEllipse(mLoc, mRadius, mRadius);
 }
 
 void Particle::update(){

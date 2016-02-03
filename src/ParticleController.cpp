@@ -41,7 +41,26 @@ void ParticleController::update(){
 }
 
 void ParticleController::draw(){
+    gl::color( ColorAf( 1, 1, 1, 0.75 ) );
     for( list<Particle>::iterator p = mParticles.begin(); p != mParticles.end(); ++p ){
         p->draw();
+    }
+}
+
+void ParticleController::drawLines(float zoneRadiusSquared){
+    {
+        for( list<Particle>::iterator p1 = mParticles.begin(); p1 != mParticles.end(); ++p1 ) {
+            
+            list<Particle>::iterator p2 = p1;
+            for( ++p2; p2 != mParticles.end(); ++p2 ) {
+                vec2 dir = p1->mLoc - p2->mLoc;
+                float distSqrd = length2(dir);
+                
+                if( distSqrd <= zoneRadiusSquared ) {
+                    gl::color( ColorAf( 1, 1, 1, 1.0f - ( distSqrd/zoneRadiusSquared) ) );
+                    gl::drawLine(p1->mLoc, p2->mLoc);
+                }
+            }
+        }
     }
 }

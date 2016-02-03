@@ -21,6 +21,7 @@ class ParticleController {
     void draw();
     void addParticles( int amt );
     void removeParticles( int amt );
+    void drawLines(float zoneRadiusSquared);
     
 private:
     std::list<Particle> mParticles;

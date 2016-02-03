@@ -21,8 +21,9 @@ class Particle {
     void update();
     void reset(vec2 loc);
     bool isOutsideBounds(vec2 bounds);
+    vec2 mLoc;
     
 private:
-    vec2 mLoc, mDir;
+    vec2 mDir;
     float mVel, mRadius;
 };

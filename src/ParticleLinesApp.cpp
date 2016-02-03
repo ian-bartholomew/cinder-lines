@@ -19,7 +19,13 @@ class ParticleLinesApp : public App {
 
 void ParticleLinesApp::setup()
 {
+    glEnable( GL_MULTISAMPLE_ARB );
+    
+    glEnable( GL_LINE_SMOOTH );
     glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
+    
+    glEnable( GL_POLYGON_SMOOTH );
+    glHint(GL_POLYGON_SMOOTH_HINT,GL_NICEST);
     
     mParticleController.addParticles(50);
 }
@@ -32,11 +38,12 @@ void ParticleLinesApp::update()
 void ParticleLinesApp::draw()
 {
 	gl::clear( Color( 0, 0, 0 ) );
-    gl::color( ColorAf( 1, 1, 1, 0.75 ) );
     
+    mParticleController.drawLines(25000.0);    
     mParticleController.draw();
+    
 }
 
-CINDER_APP( ParticleLinesApp, RendererGl(), [&]( App::Settings *settings ) {
+CINDER_APP( ParticleLinesApp, RendererGl, [&]( App::Settings *settings ) {
     settings->setWindowSize( 1280, 720 );
 })
