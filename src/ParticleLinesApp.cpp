@@ -18,7 +18,7 @@ class ParticleLinesApp : public App {
     ParticleController      mParticleController;
     params::InterfaceGlRef	mParams;
     float                   mZoneRadiusSqrd;
-    bool                    bDrawParticles, bEnableMultiSample, bEnableLineSmooth, bEnablePolySmooth;
+    bool                    bPause, bDrawParticles, bEnableMultiSample, bEnableLineSmooth, bEnablePolySmooth;
 };
 
 void ParticleLinesApp::setup()
@@ -29,6 +29,7 @@ void ParticleLinesApp::setup()
     bEnableLineSmooth = TRUE;
     bEnableMultiSample = TRUE;
     bEnablePolySmooth = FALSE;
+    bPause = FALSE;
     
     //set up params
     mParams = params::InterfaceGl::create( getWindow(), "App parameters", toPixels( ivec2( 200, 300 ) ) );
@@ -37,6 +38,8 @@ void ParticleLinesApp::setup()
     mParams->addParam( "Enable Multisample", &bEnableMultiSample );
     mParams->addParam( "Enable Line Smooth", &bEnableLineSmooth );
     mParams->addParam( "Enable Poly Smooth", &bEnablePolySmooth );
+    mParams->addSeparator();
+    mParams->addParam("Pause", &bPause).key("space");
     
     mParticleController.addParticles(50);
     
@@ -44,7 +47,7 @@ void ParticleLinesApp::setup()
 
 void ParticleLinesApp::update()
 {
-    mParticleController.update();
+    if (!bPause) mParticleController.update();
 }
 
 void ParticleLinesApp::draw()
