@@ -12,7 +12,8 @@
 using namespace std;
 using namespace cinder;
 
-Particle::Particle(vec2 loc){
+Particle::Particle(vec2 loc, uint id){
+    mID = id;
     reset(loc);
 }
 
@@ -21,6 +22,14 @@ void Particle::reset(vec2 loc){
     mDir = Rand::randVec2();
     mVel = Rand::randFloat( 2.0f );
     mRadius = Rand::randFloat( 0.5f, 2.0f );
+}
+
+bool Particle::isConnectedToParticle(uint id){
+    if(std::find(mConnectedParticles.begin(), mConnectedParticles.end(), id) != mConnectedParticles.end()) {
+        return TRUE;
+    } else {
+        return FALSE;
+    }
 }
 
 bool Particle::isOutsideBounds(vec2 bounds){
@@ -33,4 +42,5 @@ void Particle::draw(){
 
 void Particle::update(){
     mLoc += mDir * mVel;
+    mConnectedParticles.clear(); // clear each run
 }

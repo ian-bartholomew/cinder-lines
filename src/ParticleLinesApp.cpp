@@ -17,7 +17,7 @@ class ParticleLinesApp : public App {
   private:
     ParticleController      mParticleController;
     params::InterfaceGlRef	mParams;
-    float                   mZoneRadiusSqrd;
+    float                   mZoneRadiusSqrd, mLineAlpha, mFillAlpha;
     bool                    bPause, bDrawParticles, bEnableMultiSample, bEnableLineSmooth, bEnablePolySmooth;
 };
 
@@ -25,6 +25,8 @@ void ParticleLinesApp::setup()
 {
     
     mZoneRadiusSqrd = 25000.0f;
+    mLineAlpha = 1.0f;
+    mFillAlpha = 0.5f;
     bDrawParticles = TRUE;
     bEnableLineSmooth = TRUE;
     bEnableMultiSample = TRUE;
@@ -35,13 +37,20 @@ void ParticleLinesApp::setup()
     mParams = params::InterfaceGl::create( getWindow(), "App parameters", toPixels( ivec2( 200, 300 ) ) );
     mParams->addParam( "Zone Radius", &mZoneRadiusSqrd ).min( 100.0f ).step( 500.0f );
     mParams->addParam( "Draw Particles", &bDrawParticles );
+    mParams->addSeparator();
     mParams->addParam( "Enable Multisample", &bEnableMultiSample );
     mParams->addParam( "Enable Line Smooth", &bEnableLineSmooth );
     mParams->addParam( "Enable Poly Smooth", &bEnablePolySmooth );
     mParams->addSeparator();
     mParams->addParam("Pause", &bPause).key("space");
+    mParams->addSeparator();
+    mParams->addParam( "Line Alpha", &mLineAlpha ).min( 0.0f ).max(1.0f).step( 0.01f );
+    mParams->addParam( "Fill Alpha", &mFillAlpha ).min( 0.0f ).max(1.0f).step( 0.01f );
     
     mParticleController.addParticles(50);
+    
+    gl::enableAdditiveBlending();
+//    gl::enableAlphaBlending();
     
 }
 
@@ -67,7 +76,7 @@ void ParticleLinesApp::draw()
     
 	gl::clear( Color( 0, 0, 0 ) );
     
-    mParticleController.drawLines(mZoneRadiusSqrd);
+    mParticleController.drawLines(mZoneRadiusSqrd, mLineAlpha, mFillAlpha);
     if (bDrawParticles) mParticleController.draw();
     
     // Draw the interface
