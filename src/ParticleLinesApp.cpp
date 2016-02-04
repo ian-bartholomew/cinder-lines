@@ -2,6 +2,7 @@
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 #include "ParticleController.h"
+#include "cinder/params/Params.h"
 
 using namespace ci;
 using namespace ci::app;
@@ -14,20 +15,31 @@ class ParticleLinesApp : public App {
 	void draw() override;
   
   private:
-    ParticleController mParticleController;
+    ParticleController      mParticleController;
+    params::InterfaceGlRef	mParams;
+    float                   mZoneRadiusSqrd;
+    bool                    bDrawParticles, bEnableMultiSample, bEnableLineSmooth, bEnablePolySmooth;
 };
 
 void ParticleLinesApp::setup()
 {
-    glEnable( GL_MULTISAMPLE_ARB );
     
-    glEnable( GL_LINE_SMOOTH );
-    glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
+    mZoneRadiusSqrd = 25000.0f;
+    bDrawParticles = TRUE;
+    bEnableLineSmooth = TRUE;
+    bEnableMultiSample = TRUE;
+    bEnablePolySmooth = FALSE;
     
-    glEnable( GL_POLYGON_SMOOTH );
-    glHint(GL_POLYGON_SMOOTH_HINT,GL_NICEST);
+    //set up params
+    mParams = params::InterfaceGl::create( getWindow(), "App parameters", toPixels( ivec2( 200, 300 ) ) );
+    mParams->addParam( "Zone Radius", &mZoneRadiusSqrd ).min( 100.0f ).step( 500.0f );
+    mParams->addParam( "Draw Particles", &bDrawParticles );
+    mParams->addParam( "Enable Multisample", &bEnableMultiSample );
+    mParams->addParam( "Enable Line Smooth", &bEnableLineSmooth );
+    mParams->addParam( "Enable Poly Smooth", &bEnablePolySmooth );
     
     mParticleController.addParticles(50);
+    
 }
 
 void ParticleLinesApp::update()
@@ -37,11 +49,26 @@ void ParticleLinesApp::update()
 
 void ParticleLinesApp::draw()
 {
+    
+    if (bEnableMultiSample) glEnable( GL_MULTISAMPLE_ARB );
+    
+    if (bEnableLineSmooth) {
+        glEnable( GL_LINE_SMOOTH );
+        glHint(GL_LINE_SMOOTH_HINT,GL_NICEST);
+    }
+    
+    if (bEnablePolySmooth) {
+        glEnable( GL_POLYGON_SMOOTH );
+        glHint(GL_POLYGON_SMOOTH_HINT,GL_NICEST);
+    }
+    
 	gl::clear( Color( 0, 0, 0 ) );
     
-    mParticleController.drawLines(25000.0);    
-    mParticleController.draw();
+    mParticleController.drawLines(mZoneRadiusSqrd);
+    if (bDrawParticles) mParticleController.draw();
     
+    // Draw the interface
+    mParams->draw();
 }
 
 CINDER_APP( ParticleLinesApp, RendererGl, [&]( App::Settings *settings ) {

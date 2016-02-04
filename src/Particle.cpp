@@ -19,8 +19,8 @@ Particle::Particle(vec2 loc){
 void Particle::reset(vec2 loc){
     mLoc = loc;
     mDir = Rand::randVec2();
-    mVel = Rand::randFloat( 5.0f );
-    mRadius = 4.0f - Rand::randFloat( 1.5f, 3.0f );
+    mVel = Rand::randFloat( 2.0f );
+    mRadius = Rand::randFloat( 0.5f, 2.0f );
 }
 
 bool Particle::isOutsideBounds(vec2 bounds){
