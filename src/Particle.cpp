@@ -24,7 +24,7 @@ void Particle::reset(vec2 loc){
     mRadius = Rand::randFloat( 0.5f, 2.0f );
 }
 
-bool Particle::isConnectedToParticle(uint id){
+bool Particle::isConnectedToParticle(const uint id){
     if(std::find(mConnectedParticles.begin(), mConnectedParticles.end(), id) != mConnectedParticles.end()) {
         return TRUE;
     } else {
@@ -41,6 +41,17 @@ void Particle::draw(){
 }
 
 void Particle::update(){
+    // keep particle on screen
+    if (mLoc.x < 0) {
+        mLoc.x = app::getWindowWidth();
+    } else if (mLoc.y < 0) {
+        mLoc.y = app::getWindowHeight();
+    } else if (mLoc.x > app::getWindowWidth()) {
+        mLoc.x = 0;
+    } else if (mLoc.y > app::getWindowHeight()) {
+        mLoc.y = 0;
+    }
+    
     mLoc += mDir * mVel;
     mConnectedParticles.clear(); // clear each run
 }

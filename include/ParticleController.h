@@ -17,12 +17,12 @@ using namespace cinder;
 
 class ParticleController {
   public:    
-    void update();
+    void update(uint numParticles);
     void draw();
     void addParticles( int amt );
     void removeParticles( int amt );
     void drawLines(float zoneRadiusSquared, float lineAlpha, float fillAlpha);
     
 private:
-    std::list<Particle> mParticles;
+    std::vector<Particle> mParticles;
 };

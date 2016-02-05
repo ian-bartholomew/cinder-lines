@@ -23,35 +23,36 @@ void ParticleController::addParticles(int amt){
 
 void ParticleController::removeParticles(int amt){
     for (uint i = 0; i < amt; i++) {
-        mParticles.pop_front();
+        mParticles.pop_back();
     }
 }
 
-void ParticleController::update(){    
-    vec2 windowBounds = vec2(app::getWindowWidth(), app::getWindowHeight());
+void ParticleController::update(uint numParticles){
+    // adjust the number of particle if needed 
+    if (mParticles.size() != numParticles) {
+        mParticles.clear();
+        addParticles(numParticles);
+    }
     
-    for( list<Particle>::iterator p = mParticles.begin(); p != mParticles.end(); ++p ){
-        if (p->isOutsideBounds(windowBounds)) {
-            float x = Rand::randFloat( app::getWindowWidth() );
-            float y = Rand::randFloat( app::getWindowHeight() );
-            p->reset(vec2( x, y ));
-        }
-        p->update();
+    for( auto & p : mParticles ){
+        p.update();
     }
 }
 
 void ParticleController::draw(){
     gl::color( ColorAf( 1, 1, 1, 0.75 ) );
-    for( list<Particle>::iterator p = mParticles.begin(); p != mParticles.end(); ++p ){
-        p->draw();
+    for( auto & p : mParticles ){
+        p.draw();
     }
 }
 
 void ParticleController::drawLines(float zoneRadiusSquared, float lineAlpha, float fillAlpha){
     {
-        for( list<Particle>::iterator p1 = mParticles.begin(); p1 != mParticles.end(); ++p1 ) {
+        list<vec2> pts;
+        
+        for( vector<Particle>::iterator p1 = mParticles.begin(); p1 != mParticles.end(); ++p1 ) {
             
-            list<Particle>::iterator p2 = p1;
+            vector<Particle>::iterator p2 = p1;
             for( ++p2; p2 != mParticles.end(); ++p2 ) {
                 // check that we have not already drawn a line, because we don't want to draw two
                 if (!p1->isConnectedToParticle(p2->mID)) {
@@ -65,29 +66,26 @@ void ParticleController::drawLines(float zoneRadiusSquared, float lineAlpha, flo
                         p2->mConnectedParticles.push_back(p1->mID);
                     }
                     
-                    vector<uint> &pv = p1->mConnectedParticles;
-                    for ( auto &it : pv){
+                    for ( auto &it : p1->mConnectedParticles){
                         if (p2->isConnectedToParticle(it)){
-                            for (auto & p3 : mParticles) {
-                                if (p3.mID == it) {
-                                    float a = std::min(
-                                                       std::min((length2(p1->mLoc - p2->mLoc)/zoneRadiusSquared),
-                                                                (length2(p2->mLoc - p3.mLoc)/zoneRadiusSquared)),
-                                                       (length2(p3.mLoc - p1->mLoc)/zoneRadiusSquared));
-                                    gl::VertBatch vb( GL_TRIANGLES );
-                                        vb.color( 1, 1, 1, fillAlpha -  a);
-                                        vb.vertex( p1->mLoc.x, p1->mLoc.y );
-                                        vb.color( 1, 1, 1, fillAlpha -  a);
-                                        vb.vertex( p2->mLoc.x, p2->mLoc.y );
-                                        vb.color( 1, 1, 1, fillAlpha -  a);
-                                        vb.vertex( p3.mLoc.x, p3.mLoc.y );
-                                    vb.draw();
-                                }
-                            }
+//                            float a = std::min(std::min((length2(p1->mLoc - p2->mLoc)/zoneRadiusSquared),(length2(p2->mLoc - it.mLoc)/zoneRadiusSquared)),(length2(it.mLoc - p1->mLoc)/zoneRadiusSquared));
+                            pts.push_back(p1->mLoc);
+                            pts.push_back(p2->mLoc);
+                            pts.push_back(mParticles.at(it).mLoc);
+                            
+                            
                         }
                     }
                 }
             }
         }
+        
+        gl::VertBatch vb( GL_TRIANGLES );
+        for (auto &p : pts) {
+            vb.color( 1, 1, 1, fillAlpha -  0.2f);
+            vb.vertex( p.x, p.y );
+        }
+        vb.draw();
+
     }
 }

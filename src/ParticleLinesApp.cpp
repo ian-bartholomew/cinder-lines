@@ -15,6 +15,7 @@ class ParticleLinesApp : public App {
 	void draw() override;
   
   private:
+    uint                    mNumParticles;
     ParticleController      mParticleController;
     params::InterfaceGlRef	mParams;
     float                   mZoneRadiusSqrd, mLineAlpha, mFillAlpha;
@@ -23,7 +24,7 @@ class ParticleLinesApp : public App {
 
 void ParticleLinesApp::setup()
 {
-    
+    mNumParticles = 50;
     mZoneRadiusSqrd = 25000.0f;
     mLineAlpha = 1.0f;
     mFillAlpha = 0.5f;
@@ -37,6 +38,7 @@ void ParticleLinesApp::setup()
     mParams = params::InterfaceGl::create( getWindow(), "App parameters", toPixels( ivec2( 200, 300 ) ) );
     mParams->addParam( "Zone Radius", &mZoneRadiusSqrd ).min( 100.0f ).step( 500.0f );
     mParams->addParam( "Draw Particles", &bDrawParticles );
+    mParams->addParam( "Number  Particles", &mNumParticles );
     mParams->addSeparator();
     mParams->addParam( "Enable Multisample", &bEnableMultiSample );
     mParams->addParam( "Enable Line Smooth", &bEnableLineSmooth );
@@ -47,7 +49,7 @@ void ParticleLinesApp::setup()
     mParams->addParam( "Line Alpha", &mLineAlpha ).min( 0.0f ).max(1.0f).step( 0.01f );
     mParams->addParam( "Fill Alpha", &mFillAlpha ).min( 0.0f ).max(1.0f).step( 0.01f );
     
-    mParticleController.addParticles(50);
+    mParticleController.addParticles(mNumParticles);
     
     gl::enableAdditiveBlending();
 //    gl::enableAlphaBlending();
@@ -56,7 +58,7 @@ void ParticleLinesApp::setup()
 
 void ParticleLinesApp::update()
 {
-    if (!bPause) mParticleController.update();
+    if (!bPause) mParticleController.update(mNumParticles);
 }
 
 void ParticleLinesApp::draw()

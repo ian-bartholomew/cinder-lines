@@ -25,7 +25,7 @@ class Particle {
     void update();
     void reset(vec2 loc);
     bool isOutsideBounds(vec2 bounds);
-    bool isConnectedToParticle(uint id);
+    bool isConnectedToParticle(const uint id);
     
 private:
     vec2 mDir;
