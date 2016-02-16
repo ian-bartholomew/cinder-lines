@@ -20,7 +20,7 @@ Particle::Particle(vec2 loc, uint id){
 void Particle::reset(vec2 loc){
     mLoc = loc;
     mDir = Rand::randVec2();
-    mVel = Rand::randFloat( 2.0f );
+    mVel = Rand::randFloat( 1.0f );
     mRadius = Rand::randFloat( 0.5f, 2.0f );
 }
 

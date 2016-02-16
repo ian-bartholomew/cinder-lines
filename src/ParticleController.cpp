@@ -82,7 +82,7 @@ void ParticleController::drawLines(float zoneRadiusSquared, float lineAlpha, flo
         
         gl::VertBatch vb( GL_TRIANGLES );
         for (auto &p : pts) {
-            vb.color( 1, 1, 1, fillAlpha -  0.2f);
+            vb.color( 1, 1, 1, fillAlpha);
             vb.vertex( p.x, p.y );
         }
         vb.draw();

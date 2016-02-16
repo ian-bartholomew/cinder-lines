@@ -24,11 +24,11 @@ class ParticleLinesApp : public App {
 
 void ParticleLinesApp::setup()
 {
-    mNumParticles = 50;
-    mZoneRadiusSqrd = 25000.0f;
-    mLineAlpha = 1.0f;
-    mFillAlpha = 0.5f;
-    bDrawParticles = TRUE;
+    mNumParticles = 125;
+    mZoneRadiusSqrd = 15000.0f;
+    mLineAlpha = 0.03f;
+    mFillAlpha = 0.02f;
+    bDrawParticles = FALSE;
     bEnableLineSmooth = TRUE;
     bEnableMultiSample = TRUE;
     bEnablePolySmooth = FALSE;
